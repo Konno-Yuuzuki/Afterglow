@@ -1,56 +1,53 @@
 {
-	"name": "theme-dracula",
-	"version": "2.22.4",
-  "displayName": "Dracula Light",
-	"homepage": "https://draculatheme.com/",
+  "name": "theme-Afterglow",
+  "version": "2.23.0",
+  "displayName": "Afterglow",
+  "homepage": "",
   "description": "",
-	"publisher": "dracula-theme",
-	"license": "MIT",
-	"scripts": {
-		"build": "node ./scripts/build.js",
-		"lint": "node ./scripts/lint.js",
-		"package": "vsce package -o ./bin/dracula-light.vsix",
+  "publisher": "Afterglow-theme",
+  "license": "MIT",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "lint": "node ./scripts/lint.js",
+    "package": "vsce package -o ./bin/dracula-light.vsix",
     "vscode:prepublish": "npm run build"
-	},
-	"maintainers": [
+  },
+  "maintainers": [
     "Yuuzuki <konno_yuuzuki@outlook.com>"
-	],
-	"repository": {
-	},
-	"bugs": {
-
-	},
-	"engines": {
-		"vscode": "^1.13.0"
-	},
-	"categories": [
-		"Themes"
-	],
-	"keywords": [
-		"dracula",
+  ],
+  "repository": {},
+  "bugs": {},
+  "engines": {
+    "vscode": "^1.13.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "Afterglow",
     "light",
-		"theme",
-		"color-theme"
-	],
-	"icon": "icon.png",
-	"galleryBanner": {
-		"color": "#3c4557",
+    "theme",
+    "color-theme"
+  ],
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#3c4557",
     "theme": "light"
-	},
-	"contributes": {
-		"themes": [
-			{
-				"label": "Dracula light",
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Afterglow",
         "uiTheme": "vs",
         "path": "./theme/dracula-light.json"
       }
-		]
-	},
-	"devDependencies": {
+    ]
+  },
+  "devDependencies": {
     "chroma-js": "^2.1.2",
-		"js-yaml": "^4.1.0",
-		"prettier": "^2.3.1",
-		"tinycolor2": "^1.4.2",
+    "js-yaml": "^4.1.0",
+    "prettier": "^2.3.1",
+    "tinycolor2": "^1.4.2",
     "vsce": "^1.93.0"
   }
 }

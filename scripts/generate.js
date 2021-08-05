@@ -5,8 +5,8 @@ const fs = require('fs');
 const { join } = require('path');
 
 /**
- * On dev mode, sometimes when we read the file the return value of readFile
- * is an empty string. In those cases we need to read the file again
+ * 在开发模式下，有时当我们读取文件时 readFile 的返回值
+ * 是一个空字符串。在这些情况下，我们需要再次读取文件
  */
 async function readFileRetrying(filePathYAML) {
   const yaml = await fs.readFileSync(filePathYAML, 'utf8');
@@ -85,10 +85,11 @@ function generate(yaml, json) {
     return getDarker()
   });
 
-  return yamlVariant.replace(
-    'Dracula',
-    `Dracula Light Theme`
-  );
+  return yamlVariant
+    .replace('Dracula', `Afterglow`)
+    .replace('Zeno Rocha', 'Konno Yuuzuki')
+    .replace('Derek P Sifford <dereksifford@gmail.com>', 'Konno Yuuzuki <Konno_Yuuzuki@outlook.com>')
+    .replace('theme.dracula', 'theme.Afterglow');
 }
 
 module.exports = loadTheme;
