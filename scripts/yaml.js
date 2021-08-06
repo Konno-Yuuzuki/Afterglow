@@ -13,5 +13,4 @@ const schema = new Schema([withAlphaType]);
 async function loadJSON(file) {
   return load(file, { schema });
 }
-
 module.exports = loadJSON;

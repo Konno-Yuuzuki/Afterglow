@@ -21,24 +21,69 @@ async function readFileRetrying(filePathYAML) {
  */
 async function loadTheme(filePathYAML) {
   const yaml = await readFileRetrying(filePathYAML);
-  const json = await loadJSON(yaml);
 
-  const light = await loadJSON(generate(yaml, json))
+  const yamlAdjustInfo = infoAdjustment(yaml)
+  const yamlAdjustColor = colorAdjustment(yamlAdjustInfo)
+
+  const json = await loadJSON(yamlAdjustColor);
+  const light = await loadJSON(generate(yamlAdjustColor, json))
 
   for (let key in light.colors) {
     if (!light.colors[key]) {
+      // 删除颜色为空的key
       delete light.colors[key];
     }
   }
+
   return light
 }
 
+/**
+ * 信息修改
+ */
+function infoAdjustment(yml) {
+  const replaceMaps = new Map([
+    ['Dracula', 'Afterglow'],
+    ['Zeno Rocha', 'Konno Yuuzuki'],
+    ['Derek P Sifford <dereksifford@gmail.com>', 'Konno Yuuzuki <Konno_Yuuzuki@outlook.com>'],
+    ['theme.dracula', 'theme.Afterglow']
+  ])
+  let yamlAdjust = yml
+  replaceMaps.forEach((value, key) => {
+    yamlAdjust = yamlAdjust.replace(key, value)
+  })
+  return yamlAdjust
+}
+
+/**
+ * 部分颜色调整
+ */
+function colorAdjustment(yaml) {
+
+  const colorMaps = new Map([
+    [/(panel.border: \*)\w+/, '$1BG'],
+    [/(editor.lineHighlightBorder: \*)\w+/, '$1BG'],
+  ]);
+
+  let yamlAdjust = yaml
+  colorMaps.forEach((value, key) => {
+    yamlAdjust = yamlAdjust.replace(key, value)
+  })
+
+  return yamlAdjust
+}
+
+
+
 function generate(yaml, json) {
 
+  // 背景色
   const BG = json.dracula.base[0];
+  // 前景色
   const FG = json.dracula.base[1];
-  // const otherBG = json.dracula.other.slice(3, 7);
+  // 其他背景色
   const otherBG = json.dracula.other
+  // 全部背景色
   const anyBG = [BG, ...otherBG];
 
   // Darken colors until constrast ratio complies with WCAG https://vis4.net/chromajs/#chroma-contrast
@@ -86,10 +131,7 @@ function generate(yaml, json) {
   });
 
   return yamlVariant
-    .replace('Dracula', `Afterglow`)
-    .replace('Zeno Rocha', 'Konno Yuuzuki')
-    .replace('Derek P Sifford <dereksifford@gmail.com>', 'Konno Yuuzuki <Konno_Yuuzuki@outlook.com>')
-    .replace('theme.dracula', 'theme.Afterglow');
+
 }
 
 module.exports = loadTheme;
