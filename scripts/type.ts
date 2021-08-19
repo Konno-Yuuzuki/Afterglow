@@ -67,3 +67,13 @@ export interface ThemeType {
 }
 
 export type CustomConfig = Partial<Omit<ThemeType, 'dracula'>>;
+
+export interface GenerateOptions extends Omit<ThemeConfig, 'custom'> {}
+
+export interface ThemeConfig {
+    name: string;
+    ratioTarget?: number;
+    resolution?: number;
+    backgroundColor?: string;
+    custom?: CustomConfig;
+}

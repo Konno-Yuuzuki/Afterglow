@@ -40,6 +40,11 @@
         "label": "Afterglow",
         "uiTheme": "vs",
         "path": "./theme/Afterglow.json"
+      },
+      {
+        "label": "Afterglow-light",
+        "uiTheme": "vs",
+        "path": "./theme/Afterglow-light.json"
       }
     ]
   },

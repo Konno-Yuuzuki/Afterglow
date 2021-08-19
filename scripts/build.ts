@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
-import { customConfig, DRACULA_PATH, themeConfig, THEME_DIR } from './config';
+import { DRACULA_PATH, themeConfig, THEME_DIR } from './config';
 import Generate from './generate';
 import { ThemeType } from './type';
 import loadToJSON from './yaml';
@@ -11,10 +11,8 @@ export default function build() {
     const yaml = readFileSync(DRACULA_PATH, 'utf-8');
     const json = loadToJSON<ThemeType>(yaml);
 
-    themeConfig.forEach((config) => {
-        const theme = new Generate(yaml, json)
-            .setOption(config)
-            .theme(customConfig);
+    themeConfig.forEach(({ custom, ...options }) => {
+        const theme = new Generate(yaml, json).setOption(options).theme(custom);
 
         writeFileSync(
             path.resolve(THEME_DIR, theme.name + '.json'),

@@ -3,15 +3,8 @@
  */
 
 import chroma, { Color, contrast } from 'chroma-js';
-import { CustomConfig, ThemeType } from './type';
+import { CustomConfig, GenerateOptions, ThemeType } from './type';
 import loadToJSON from './yaml';
-
-export interface GenerateOptions {
-    name: string;
-    ratioTarget?: number;
-    resolution?: number;
-    backgroundColor?: string;
-}
 
 const defaultOptions: GenerateOptions = {
     name: 'Afterglow',
@@ -108,6 +101,10 @@ export default class Generate {
             this.resolution = resolution;
         }
         if (backgroundColor) {
+            console.assert(
+                this.hexReg.test(backgroundColor.toUpperCase()),
+                '颜色设置错误',
+            );
             this.BG = backgroundColor;
         }
         return this;
@@ -123,15 +120,19 @@ export default class Generate {
         let customTheme = theme;
         const { colors, tokenColors, ...others } = customConfig;
         if (colors) {
-            Object.keys(colors).forEach((key) => {
-                const value = colors[key];
-                if (/^&\w{1,}$/.test(value)) {
-                    Reflect.set(colors, key, this.anyColor[key] || null);
-                } else if (!this.hexReg.test(value)) {
-                    Reflect.set(colors, key, null);
+            const colorClone = { ...colors };
+            Object.keys({ ...colorClone }).forEach((key) => {
+                const value = colorClone[key];
+                console.log(key, value);
+                if (!value) {
+                    Reflect.set(colorClone, key, null);
+                } else if (/^&\w{1,}$/.test(value)) {
+                    Reflect.set(colorClone, key, this.anyColor[key] || null);
+                } else if (!this.hexReg.test(value.toUpperCase())) {
+                    Reflect.set(colorClone, key, null);
                 }
             });
-            const customColors = { ...theme.colors, ...colors };
+            const customColors = { ...theme.colors, ...colorClone };
             customTheme = { ...theme, colors: customColors };
         }
         Object.keys(customTheme.colors).forEach((key) => {
