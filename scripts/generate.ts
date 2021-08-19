@@ -42,23 +42,25 @@ export default class Generate {
     private hexReg = /#[0-9A-F]{3,}/;
 
     /**
-     * 主背景色
+     * 原背景色
+     */
+    private originalBG: string = '';
+    /**
+     * 原前景色
+     */
+    private originalFG: string = '';
+    /**
+     * 当前背景色
      */
     private BG: string = '';
     /**
-     * 主前景色
+     * 当前前景色
      */
     private FG: string = '';
-    /**
-     * 其他背景色
-     */
-    private otherBG: string[] = [];
     /**
      * 所有背景色
      */
     private anyBG: string[] = [];
-    private originalBG: string = '';
-    private originalFG: string = '';
     private anyColor: Record<string, string> = {};
 
     constructor(yaml: string, json: ThemeType) {
@@ -84,10 +86,10 @@ export default class Generate {
     private getBaseColors() {
         this.originalBG = this.json.dracula.base[0];
         this.originalFG = this.json.dracula.base[1];
-        this.BG = this.anyColor['&BG'] = this.originalFG;
-        this.FG = this.anyColor['&FG'] = this.originalBG;
-        this.otherBG = this.json.dracula.other;
-        this.anyBG = [this.BG, ...this.otherBG];
+        this.BG = this.originalFG;
+        this.FG = this.originalBG;
+        const otherBG = this.json.dracula.other;
+        this.anyBG = [this.originalBG, ...otherBG];
     }
 
     setOption(options: GenerateOptions = defaultOptions) {
@@ -96,14 +98,17 @@ export default class Generate {
             this.name = name;
         }
         if (ratioTarget) {
-            // console.assert(ratioTarget >= this.minimumContrast, '对比度不能小于4.5');
+            console.assert(
+                ratioTarget >= this.minimumContrast,
+                '对比度不能小于4.5',
+            );
             this.ratioTarget = ratioTarget;
         }
         if (resolution) {
             this.resolution = resolution;
         }
         if (backgroundColor) {
-            this.BG = this.anyColor['&BG'] = backgroundColor;
+            this.BG = backgroundColor;
         }
         return this;
     }
@@ -142,30 +147,30 @@ export default class Generate {
         while (contrast(brightColor, this.BG) > originalContrast) {
             brightColor = brightColor.brighten(this.resolution);
         }
-        return brightColor.toString();
+        return brightColor as unknown as string;
     }
 
     private getDarkenColor(color: string) {
-        let darkenColor = color;
-        while (contrast(darkenColor, this.FG) < this.ratioTarget) {
-            darkenColor = chroma(darkenColor).darken(this.resolution).hex();
+        let darkenColor: Color = chroma(color);
+        while (contrast(darkenColor, this.BG) < this.ratioTarget) {
+            darkenColor = darkenColor.darken(this.resolution);
         }
-        return darkenColor;
+        return darkenColor as unknown as string;
     }
 
-    theme(customConfig: CustomConfig) {
+    theme(customConfig?: CustomConfig) {
         const themeStr = this.yaml.replace(
             new RegExp(this.hexReg, 'gi'),
             (color) => {
                 const originalColor = color;
                 const originalContrast = contrast(color, this.originalBG);
 
-                // 主背景色和主前景色互换 (#F8F8F2 -> #282A36)
-                if (color === this.originalBG) {
-                    return this.BG;
+                // 原前景色 换成 当前前景色 (#F8F8F2 -> #282A36)
+                if (color === this.originalFG) {
+                    return this.FG;
                 }
 
-                // 将其他的背景色统一换成主前景色
+                // 将原其他的背景色 统一换成 当前背景色
                 if (this.anyBG.includes(color)) {
                     return this.BG;
                 }

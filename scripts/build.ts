@@ -12,7 +12,9 @@ export default function build() {
     const json = loadToJSON<ThemeType>(yaml);
 
     themeConfig.forEach((config) => {
-        const theme = new Generate(yaml, json).setOption(config).theme(customConfig);
+        const theme = new Generate(yaml, json)
+            .setOption(config)
+            .theme(customConfig);
 
         writeFileSync(
             path.resolve(THEME_DIR, theme.name + '.json'),
