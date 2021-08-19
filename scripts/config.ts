@@ -20,15 +20,30 @@ const customConfig: CustomConfig = {
 
 export const themeConfig: ThemeConfig[] = [
     {
-        name: 'Afterglow',
+        name: 'Afterglow-Light',
         ratioTarget: 4.5,
         resolution: 0.001,
         custom: customConfig,
     },
     {
-        name: 'Afterglow-light',
+        name: 'Afterglow-Light-Darker',
         ratioTarget: 7,
+        backgroundColor: '#f5f3e8',
+        resolution: 0.001,
+        custom: customConfig,
+    },
+    {
+        name: 'Afterglow-White',
+        ratioTarget: 4.5,
         backgroundColor: '#ffffff',
+        resolution: 0.001,
+        custom: customConfig,
+    },
+
+    {
+        name: 'Afterglow-White-Darker',
+        ratioTarget: 7,
+        backgroundColor: '#f2f4f6',
         resolution: 0.001,
         custom: customConfig,
     },

@@ -110,13 +110,13 @@ export default class Generate {
         return this;
     }
 
-    rename(themeJSON: ThemeType) {
+    private rename(themeJSON: ThemeType) {
         const renameTheme = themeJSON;
         renameTheme.name = this.name;
         return renameTheme;
     }
 
-    custom(theme: ThemeType, customConfig: CustomConfig) {
+    private custom(theme: ThemeType, customConfig: CustomConfig) {
         let customTheme = theme;
         const { colors, tokenColors, ...others } = customConfig;
         if (colors) {
