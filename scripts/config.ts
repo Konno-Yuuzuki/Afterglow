@@ -27,7 +27,7 @@ export const themeConfig: ThemeConfig[] = [
     },
     {
         name: 'Afterglow-light',
-        ratioTarget: 4.5,
+        ratioTarget: 7,
         backgroundColor: '#ffffff',
         resolution: 0.001,
         custom: customConfig,
