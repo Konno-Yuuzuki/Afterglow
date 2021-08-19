@@ -19,13 +19,13 @@ export default function build() {
             JSON.stringify(theme, null, 4),
         );
 
-        console.log(theme.name + '主题生成成功');
+        console.log(theme.name + '  主题生成成功');
     });
 }
 
 if (require.main === module) {
     console.log('开始生成主题文件');
-    console.time('开始生成主题配置');
+    console.time('OK');
     build();
-    console.timeEnd('开始生成主题配置');
+    console.timeEnd('OK');
 }
