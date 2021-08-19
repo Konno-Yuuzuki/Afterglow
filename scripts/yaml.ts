@@ -12,6 +12,6 @@ const withAlphaType = new Type('!alpha', {
 
 const schema = new Schema([withAlphaType]);
 
-export default function loadJSON<T>(file: string): T {
-    return load(file, { schema }) as unknown as T;
+export default function loadToJSON<T>(str: string): T {
+    return load(str, { schema }) as unknown as T;
 }

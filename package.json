@@ -7,7 +7,7 @@
   "publisher": "Yuuzuki",
   "license": "MIT",
   "scripts": {
-    "build": "ts-node ./scripts/build.ts",
+    "build": "ts-node -P ./tsconfig.json -p ./scripts/build.ts",
     "lint": "ts-node ./scripts/lint.ts",
     "package": "vsce package -o ./bin/Afterglow.vsix",
     "vscode:prepublish": "npm run build"

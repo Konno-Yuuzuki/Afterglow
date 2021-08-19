@@ -63,4 +63,7 @@ export interface ThemeType {
     semanticHighlighting: string;
     dracula: Dracula;
     colors: Record<string, string>;
+    tokenColors: unknown;
 }
+
+export type CustomConfig = Partial<Omit<ThemeType, 'dracula'>>;
