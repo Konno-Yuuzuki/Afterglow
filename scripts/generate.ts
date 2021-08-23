@@ -81,7 +81,7 @@ export default class Generate {
         this.originalFG = this.json.dracula.base[1];
         this.BG = this.originalFG;
         this.FG = this.originalBG;
-        const otherBG = this.json.dracula.other;
+        const otherBG = this.json.dracula.other.slice(3);
         this.anyBG = [this.originalBG, ...otherBG];
     }
 
