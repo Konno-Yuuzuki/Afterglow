@@ -8,7 +8,7 @@ import loadToJSON from './yaml';
 import packageJSON from '../package.json';
 
 function configToPackage() {
-    console.log('添加配置信息到package中：');
+    console.log('\n添加配置信息到package中：');
     console.time('添加成功');
     const themes = themeConfig.reduce<PackageThemeType[]>((arr, config) => {
         const { name } = config;
@@ -22,7 +22,7 @@ function configToPackage() {
     packageJSON.contributes.themes = themes;
     writeFileSync(
         path.join(__dirname, '..', 'package.json'),
-        JSON.stringify(packageJSON, null, 4),
+        JSON.stringify(packageJSON, null, 2),
     );
     console.timeEnd('添加成功');
 }
@@ -53,7 +53,6 @@ export default async function build() {
         console.log(theme.name + '\t主题生成成功');
     });
     console.groupEnd();
-    console.log('');
     console.timeEnd('主题生成成功');
 
     configToPackage();
