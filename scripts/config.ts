@@ -1,7 +1,15 @@
 import path from 'path';
 import { CustomConfig, ThemeConfig } from './type';
 
-export const DRACULA_PATH = path.join(__dirname, '..', 'src/dracula.yml');
+export const DRACULA_DIR_NAME = 'visual-studio-code';
+
+export const DRACULA_TEMP_PATH = path.join(__dirname, '..', '.temp');
+
+export const DRACULA_PATH = path.join(
+    DRACULA_TEMP_PATH,
+    DRACULA_DIR_NAME,
+    'src/dracula.yml',
+);
 
 export const THEME_DIR = path.resolve(__dirname, '..', 'theme');
 

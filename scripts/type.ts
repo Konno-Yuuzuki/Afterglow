@@ -77,3 +77,9 @@ export interface ThemeConfig {
     backgroundColor?: string;
     custom?: CustomConfig;
 }
+
+export interface PackageThemeType {
+    label: string;
+    uiTheme: 'vs';
+    path: string;
+}

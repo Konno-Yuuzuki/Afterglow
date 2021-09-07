@@ -123,7 +123,6 @@ export default class Generate {
             const colorClone = { ...colors };
             Object.keys({ ...colorClone }).forEach((key) => {
                 const value = colorClone[key];
-                console.log(key, value);
                 if (!value) {
                     Reflect.set(colorClone, key, null);
                 } else if (/^&\w{1,}$/.test(value)) {
