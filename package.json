@@ -1,74 +1,73 @@
 {
-  "name": "theme-Afterglow",
-  "version": "2.24.0",
-  "displayName": "Afterglow",
-  "homepage": "",
-  "description": "一款借鉴了Dracula和Dracula.min的自用主题。",
-  "publisher": "Yuuzuki",
-  "license": "MIT",
-  "scripts": {
-    "build": "ts-node -P ./tsconfig.json -p ./scripts/build.ts",
-    "fetch": "ts-node ./scripts/fetch.ts",
-    "lint": "ts-node ./scripts/lint.ts",
-    "package": "vsce package -o ./bin/Afterglow.vsix",
-    "vscode:prepublish": "npm run build"
-  },
-  "maintainers": [
-    "Yuuzuki <konno_yuuzuki@outlook.com>"
-  ],
-  "repository": {},
-  "bugs": {},
-  "engines": {
-    "vscode": "^1.13.0"
-  },
-  "categories": [
-    "Themes"
-  ],
-  "keywords": [
-    "Afterglow",
-    "light",
-    "theme",
-    "color-theme"
-  ],
-  "icon": "icon.png",
-  "galleryBanner": {
-    "color": "#3c4557",
-    "theme": "light"
-  },
-  "contributes": {
-    "themes": [
-      {
-        "label": "Afterglow Light",
-        "uiTheme": "vs",
-        "path": "./theme/Afterglow-Light.json"
-      },
-      {
-        "label": "Afterglow Light-Darker",
-        "uiTheme": "vs",
-        "path": "./theme/Afterglow-Light-Darker.json"
-      },
-      {
-        "label": "Afterglow White",
-        "uiTheme": "vs",
-        "path": "./theme/Afterglow-White.json"
-      },
-      {
-        "label": "Afterglow White-Darker",
-        "uiTheme": "vs",
-        "path": "./theme/Afterglow-White-Darker.json"
-      }
-    ]
-  },
-  "devDependencies": {
-    "@types/chroma-js": "^2.1.3",
-    "@types/js-yaml": "^4.0.2",
-    "@types/node": "^16.6.1",
-    "chroma-js": "^2.1.2",
-    "js-yaml": "^4.1.0",
-    "prettier": "^2.3.2",
-    "tinycolor2": "^1.4.2",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.2",
-    "vsce": "^1.97.0"
-  }
+    "name": "theme-Afterglow",
+    "version": "2.24.0",
+    "displayName": "Afterglow",
+    "homepage": "",
+    "description": "一款借鉴了Dracula和Dracula.min的自用主题。",
+    "publisher": "Yuuzuki",
+    "license": "MIT",
+    "scripts": {
+        "build": "ts-node -P ./tsconfig.json -p ./scripts/build.ts",
+        "package": "vsce package -o ./bin/Afterglow.vsix",
+        "vscode:prepublish": "npm run build",
+        "vsce-publish": "vsce publish"
+    },
+    "maintainers": [
+        "Yuuzuki <konno_yuuzuki@outlook.com>"
+    ],
+    "repository": {},
+    "bugs": {},
+    "engines": {
+        "vscode": "^1.13.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "keywords": [
+        "Afterglow",
+        "light",
+        "theme",
+        "color-theme"
+    ],
+    "icon": "icon.png",
+    "galleryBanner": {
+        "color": "#3c4557",
+        "theme": "light"
+    },
+    "contributes": {
+        "themes": [
+            {
+                "label": "Afterglow Light",
+                "uiTheme": "vs",
+                "path": "./theme/Afterglow-Light.json"
+            },
+            {
+                "label": "Afterglow Light-Darker",
+                "uiTheme": "vs",
+                "path": "./theme/Afterglow-Light-Darker.json"
+            },
+            {
+                "label": "Afterglow White",
+                "uiTheme": "vs",
+                "path": "./theme/Afterglow-White.json"
+            },
+            {
+                "label": "Afterglow White-Darker",
+                "uiTheme": "vs",
+                "path": "./theme/Afterglow-White-Darker.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "@types/chroma-js": "^2.1.3",
+        "@types/js-yaml": "^4.0.2",
+        "@types/node": "^16.6.1",
+        "chroma-js": "^2.1.2",
+        "js-yaml": "^4.1.0",
+        "prettier": "^2.3.2",
+        "tinycolor2": "^1.4.2",
+        "ts-node": "^10.2.1",
+        "typescript": "^4.4.2",
+        "vsce": "^1.97.0"
+    }
 }

@@ -1,3 +1,5 @@
+import Package from '../package.json'
+
 interface BaseColors {
     BG: string;
     FG: string;
@@ -68,7 +70,7 @@ export interface ThemeType {
 
 export type CustomConfig = Partial<Omit<ThemeType, 'dracula'>>;
 
-export interface GenerateOptions extends Omit<ThemeConfig, 'custom'> {}
+export interface GenerateOptions extends Omit<ThemeConfig, 'custom'> { }
 
 export interface ThemeConfig {
     name: string;
@@ -83,3 +85,5 @@ export interface PackageThemeType {
     uiTheme: 'vs';
     path: string;
 }
+
+export type PackageType = typeof Package;

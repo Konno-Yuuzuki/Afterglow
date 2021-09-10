@@ -1,13 +1,13 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import path from 'path';
-import { DRACULA_PATH, themeConfig, THEME_DIR } from './config';
-import fetchRemoteTheme from './fetch';
+import packageLocal from '../package.json';
+import { themeConfig, THEME_DIR } from './config';
+import { fetchDraculaNewestVersionNumber, fetchRemoteThemeYaml } from './fetch';
 import Generate from './generate';
 import { PackageThemeType, ThemeType } from './type';
 import loadToJSON from './yaml';
-import packageJSON from '../package.json';
 
-function configToPackage() {
+function configToPackage(versionNumber: string) {
     console.log('\n添加配置信息到package中：');
     console.time('添加成功');
     const themes = themeConfig.reduce<PackageThemeType[]>((arr, config) => {
@@ -19,10 +19,11 @@ function configToPackage() {
         });
         return arr;
     }, []);
-    packageJSON.contributes.themes = themes;
+    packageLocal.contributes.themes = themes;
+    packageLocal.version = versionNumber
     writeFileSync(
         path.join(__dirname, '..', 'package.json'),
-        JSON.stringify(packageJSON, null, 2),
+        JSON.stringify(packageLocal, null, 2),
     );
     console.timeEnd('添加成功');
 }
@@ -30,32 +31,39 @@ function configToPackage() {
 export default async function build() {
     if (!existsSync(THEME_DIR)) mkdirSync(THEME_DIR);
 
-    if (!existsSync(DRACULA_PATH)) {
-        console.log('\n主题配置文件不存在');
-        await fetchRemoteTheme();
+    console.log('\n检查更新中...')
+    const newestVersionNumber = await fetchDraculaNewestVersionNumber()
+    const currentVersion = packageLocal.version
+
+    if (newestVersionNumber === currentVersion) {
+        console.warn('当前已是最新版本')
+        process.exit()
     }
 
-    const yaml = readFileSync(DRACULA_PATH, 'utf-8');
-    const json = loadToJSON<ThemeType>(yaml);
+    console.log('\n当前最新版本: ', newestVersionNumber)
+    console.log('当前版本: ', currentVersion)
 
-    console.time('主题生成成功');
+    const themeYaml = await fetchRemoteThemeYaml()
+    const json = loadToJSON<ThemeType>(themeYaml);
 
-    console.group('\n开始生成主题文件:');
+    console.time('主题更新成功');
+    console.group('\n开始更新主题文件:');
 
     themeConfig.forEach(({ custom, ...options }) => {
-        const theme = new Generate(yaml, json).setOption(options).theme(custom);
+        const theme = new Generate(themeYaml, json).setOption(options).theme(custom);
 
         writeFileSync(
             path.resolve(THEME_DIR, theme.name + '.json'),
             JSON.stringify(theme, null, 4),
         );
 
-        console.log(theme.name + '\t主题生成成功');
+        console.log(theme.name + '\t主题更新成功');
     });
-    console.groupEnd();
-    console.timeEnd('主题生成成功');
 
-    configToPackage();
+    console.groupEnd();
+    console.timeEnd('主题更新成功');
+
+    configToPackage(newestVersionNumber);
 }
 
 if (require.main === module) {
