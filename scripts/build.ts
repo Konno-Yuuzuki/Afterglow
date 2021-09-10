@@ -31,17 +31,7 @@ function configToPackage(versionNumber: string) {
 export default async function build() {
     if (!existsSync(THEME_DIR)) mkdirSync(THEME_DIR);
 
-    console.log('\n检查更新中...')
     const newestVersionNumber = await fetchDraculaNewestVersionNumber()
-    const currentVersion = packageLocal.version
-
-    if (newestVersionNumber === currentVersion) {
-        console.warn('当前已是最新版本')
-        process.exit()
-    }
-
-    console.log('\n当前最新版本: ', newestVersionNumber)
-    console.log('当前版本: ', currentVersion)
 
     const themeYaml = await fetchRemoteThemeYaml()
     const json = loadToJSON<ThemeType>(themeYaml);

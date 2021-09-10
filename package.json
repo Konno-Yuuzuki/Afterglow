@@ -9,6 +9,7 @@
     "scripts": {
         "build": "ts-node -P ./tsconfig.json -p ./scripts/build.ts",
         "package": "vsce package -o ./bin/Afterglow.vsix",
+        "validate-update": "ts-node ./scripts/validate.ts",
         "vscode:prepublish": "npm run build",
         "vsce-publish": "vsce publish"
     },
