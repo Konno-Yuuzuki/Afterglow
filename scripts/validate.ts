@@ -4,6 +4,7 @@
 
 import { fetchDraculaNewestVersionNumber } from './fetch'
 import packageLocal from '../package.json';
+import core from '@actions/core'
 
 export default async function canUpdate() {
     console.log('\n检查更新中...')
@@ -11,8 +12,7 @@ export default async function canUpdate() {
     const currentVersion = packageLocal.version
 
     if (newestVersionNumber === currentVersion) {
-        console.warn('当前已是最新版本')
-        throw new Error('当前已是最新版本')
+        core.setFailed('当前已是最新版本')
     }
 }
 
