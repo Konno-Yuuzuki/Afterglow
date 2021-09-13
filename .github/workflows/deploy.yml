@@ -2,7 +2,8 @@ name: Deploy Extension
 
 on:
   schedule:
-    - cron: 30 5,17 * * *
+    # - cron: 30 5,17 * * *
+    - cron: 5 * * * *
 
 jobs:
   deploy:
@@ -19,6 +20,7 @@ jobs:
         run: npm install
 
       - name: validate
+        uses: actions/c
         run: npm run validate-update
 
       - name: Publish

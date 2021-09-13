@@ -5,6 +5,7 @@ import { themeConfig, THEME_DIR } from './config';
 import { fetchDraculaNewestVersionNumber, fetchRemoteThemeYaml } from './fetch';
 import Generate from './generate';
 import { PackageThemeType, ThemeType } from './type';
+import canUpdate from './validate';
 import loadToJSON from './yaml';
 
 function configToPackage(versionNumber: string) {
