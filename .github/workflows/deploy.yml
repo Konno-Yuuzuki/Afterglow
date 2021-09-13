@@ -3,7 +3,7 @@ name: Deploy Extension
 on:
   schedule:
     # - cron: 30 5,17 * * *
-    - cron: 5 * * * *
+    - cron: 0/3 * * * *
 
 jobs:
   deploy:
