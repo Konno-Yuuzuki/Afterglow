@@ -2,11 +2,16 @@
  * 读取yaml文件
  */
 
-import { Type, load, Schema } from 'js-yaml';
+import { load, Schema, Type } from 'js-yaml';
 
 const withAlphaType = new Type('!alpha', {
     kind: 'sequence',
-    construct: ([hexRGB, alpha]) => hexRGB + alpha,
+    construct: ([hexRGB, alpha]) => {
+        // return chroma(hexRGB)
+        //     .darken(100 - alpha)
+        //     .hex();
+        return hexRGB + alpha;
+    },
     // represent: ([hexRGB, alpha]) => hexRGB + alpha,
 });
 

@@ -1,12 +1,17 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import path from 'path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import path, { dirname } from 'path';
 import packageLocal from '../package.json';
-import { themeConfig, THEME_DIR } from './config';
-import { fetchDraculaNewestVersionNumber, fetchRemoteThemeYaml } from './fetch';
-import Generate from './generate';
-import { PackageThemeType, ThemeType } from './type';
-import canUpdate from './validate';
-import loadToJSON from './yaml';
+import { themeConfig, THEME_DIR, yamlPath } from './config';
+import Theme from './core/theme';
+import { PackageThemeType, ThemeType } from './interface';
+// import canUpdate from './validate';
+import 'dotenv/config';
+import { version } from '../package.json';
+import {
+    fetchDraculaNewestVersionNumber,
+    fetchRemoteThemeYaml,
+} from './yaml/fetch';
+import loadToJSON from './yaml/yaml';
 
 function configToPackage(versionNumber: string) {
     console.log('\n添加配置信息到package中：');
@@ -21,7 +26,7 @@ function configToPackage(versionNumber: string) {
         return arr;
     }, []);
     packageLocal.contributes.themes = themes;
-    packageLocal.version = versionNumber
+    packageLocal.version = versionNumber;
     writeFileSync(
         path.join(__dirname, '..', 'package.json'),
         JSON.stringify(packageLocal, null, 2),
@@ -29,26 +34,47 @@ function configToPackage(versionNumber: string) {
     console.timeEnd('添加成功');
 }
 
+function saveYaml(yaml: string) {
+    if (!existsSync(dirname(yamlPath))) {
+        mkdirSync(dirname(yamlPath));
+    }
+    writeFileSync(yamlPath, yaml, { encoding: 'utf-8' });
+}
+
 export default async function build() {
-    if (!existsSync(THEME_DIR)) mkdirSync(THEME_DIR);
+    if (!existsSync(THEME_DIR)) {
+        mkdirSync(THEME_DIR);
+    }
 
-    const newestVersionNumber = await fetchDraculaNewestVersionNumber()
+    const FETCH_NEW_FILE = process.env.FETCH_NEW_FILE === 'true';
 
-    const themeYaml = await fetchRemoteThemeYaml()
+    let newestVersionNumber = version;
+    let themeYaml = '';
+
+    if (FETCH_NEW_FILE) {
+        newestVersionNumber = await fetchDraculaNewestVersionNumber();
+        themeYaml = await fetchRemoteThemeYaml();
+        saveYaml(themeYaml);
+    } else {
+        themeYaml = readFileSync(yamlPath, { encoding: 'utf-8' });
+    }
+
     const json = loadToJSON<ThemeType>(themeYaml);
 
     console.time('主题更新成功');
     console.group('\n开始更新主题文件:');
 
     themeConfig.forEach(({ custom, ...options }) => {
-        const theme = new Generate(themeYaml, json).setOption(options).theme(custom);
+        const theme = new Theme(themeYaml, json)
+            .setOption(options)
+            .theme(custom);
 
         writeFileSync(
             path.resolve(THEME_DIR, theme.name + '.json'),
             JSON.stringify(theme, null, 4),
         );
 
-        console.log(theme.name + '\t主题更新成功');
+        console.log(theme.name, '\t', '主题更新成功');
     });
 
     console.groupEnd();

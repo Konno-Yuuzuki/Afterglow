@@ -1,4 +1,4 @@
-import Package from '../package.json'
+import Package from '../../package.json';
 
 interface BaseColors {
     BG: string;
@@ -70,11 +70,17 @@ export interface ThemeType {
 
 export type CustomConfig = Partial<Omit<ThemeType, 'dracula'>>;
 
-export interface GenerateOptions extends Omit<ThemeConfig, 'custom'> { }
+export interface GenerateOptions extends Omit<ThemeConfig, 'custom'> {}
 
 export interface ThemeConfig {
+    /**
+     * 主题名称
+     */
     name: string;
-    ratioTarget?: number;
+    /**
+     * 与主背景色的对比度
+     */
+    contrast?: number;
     resolution?: number;
     backgroundColor?: string;
     custom?: CustomConfig;
